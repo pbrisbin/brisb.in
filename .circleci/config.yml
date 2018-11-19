@@ -1,0 +1,26 @@
+---
+version: 2.0
+
+jobs:
+  build:
+    docker:
+      - image: schickling/s3cmd
+    steps:
+      - checkout
+      - run:
+          name: Deploy
+          command: |
+            if [ "$CIRCLE_BRANCH" != master ]; then
+              echo "Using --dry-run for non-master branch ($CIRCLE_BRANCH)"
+              S3CMD='s3cmd --dry-run'
+            else
+              S3CMD='s3cmd'
+            fi
+
+            $S3CMD \
+              --acl-public \
+              --delete-removed \
+              --no-mime-magic \
+              --cf-invalidate \
+              --cf-invalidate-default-index \
+              sync _site/ s3://brisb.in
