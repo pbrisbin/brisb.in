@@ -1,3 +1,1 @@
-# brisb.in
-
-HTML source for https://brisb.in
+Project moved to https://codeberg.org/pbrisbin/brisb.in
